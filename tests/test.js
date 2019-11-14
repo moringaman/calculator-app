@@ -52,3 +52,15 @@ describe("Limitations", function() {
     assert.equal(result, 'Err')
   })
 })
+
+
+describe('functions', function() {
+  it('displays the value of pi', function() {
+    let result = calc.pi()
+    assert.equal(result, 3.14159)
+  })
+  it('returns the square root of currently displayed number', function() {
+    let result = calc.square(8)
+    assert.equal(result, 2.82842712475)
+  })
+})

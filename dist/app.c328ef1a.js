@@ -180,7 +180,7 @@ function () {
     key: "square",
     value: function square(val) {
       console.log('square it');
-      return Math.sqrt(parseInt(val));
+      return Math.sqrt(parseInt(val)).toFixed(11);
     }
   }, {
     key: "pi",
