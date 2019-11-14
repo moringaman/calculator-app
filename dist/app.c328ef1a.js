@@ -177,6 +177,17 @@ function () {
       }
     }
   }, {
+    key: "square",
+    value: function square(val) {
+      console.log('square it');
+      return Math.sqrt(parseInt(val));
+    }
+  }, {
+    key: "pi",
+    value: function pi() {
+      return 3.14159;
+    }
+  }, {
     key: "evaluate",
     value: function evaluate() {
       var answer = this.validateResult(this.leftArray.join(''), this.operator, this.rightArray.join(''));
@@ -184,7 +195,9 @@ function () {
     }
   }, {
     key: "validateResult",
-    value: function validateResult(left, operator, right) {
+    value: function validateResult(left) {
+      var operator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var right = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
       this.result = eval(left + " " + operator + " " + right);
       console.log(this.result);
       if (this.result > 999999999) return 'Err';
@@ -198,8 +211,7 @@ function () {
         var result = this.previousResults[this.memoryPosition];
         this.memoryPosition++;
         return result;
-      } // return result
-
+      }
     }
   }, {
     key: "clear",
@@ -230,8 +242,9 @@ $(document).ready(function () {
   var app = {
     init: function init() {
       this.cacheDom();
-      this.result = '0';
-      document.getElementById('screen').innerHTML = '0';
+      this.result = '0'; // document.getElementById('screen').innerHTML = '0'
+
+      this.$screen.innerHTML = this.result;
       console.log(this.$screen);
       this.bindEvents();
     },
@@ -240,7 +253,7 @@ $(document).ready(function () {
       this.$calculator = $('#calculator');
       this.$main = this.$calculator.find('#main');
       this.$header = this.$calculator.find('#header');
-      this.$screen = this.$header.find('#screen');
+      this.$screen = document.getElementById('screen');
       this.$numbers = this.$main.find('#numbers');
       this.$operators = this.$main.find('#operators');
       this.$btnAc = this.$operators.find('#btn-ac');
@@ -250,7 +263,10 @@ $(document).ready(function () {
       this.$btnDivide = this.$operators.find('#btn-divide');
       this.$btnEquals = this.$operators.find('#btn-equals');
       this.$btnMem = this.$operators.find('#btn-mem');
-      this.$btnPoint = this.$numbers.find('#btn-point'); // for (let i = 0; i< 10; i++) {
+      this.$btnPi = this.$operators.find('#btn-pi');
+      this.$btnPoint = this.$numbers.find('#btn-point');
+      this.$btnRoot = this.$numbers.find('#btn-root'); // this.$btnroot = document.getElementById('btn-root')
+      // for (let i = 0; i< 10; i++) {
       //   let str = "this.$btn" + i + "= this.$numbers.find('#btn'" + i + ")"
       //   eval(str)
       // }
@@ -286,6 +302,8 @@ $(document).ready(function () {
       this.$btnDivide.on('click', this.pressKey.bind(this));
       this.$btnPoint.on('click', this.pressKey.bind(this));
       this.$btnEquals.on('click', this.evaluate.bind(this));
+      this.$btnRoot.on('click', this.square.bind(this));
+      this.$btnPi.on('click', this.pi.bind(this));
     },
     pressKey: function pressKey(x) {
       var data = x.target.value;
@@ -293,20 +311,32 @@ $(document).ready(function () {
 
       calc.newInput(data);
       this.result = calc.equation; // Display the result on screen
+      // document.getElementById("screen").innerHTML = this.result
 
-      document.getElementById("screen").innerHTML = this.result;
+      this.$screen.innerHTML = this.result;
       console.log('Result', this.result);
     },
     evaluate: function evaluate() {
       // let data = x.target.value
-      document.getElementById("screen").innerHTML = calc.evaluate();
+      // document.getElementById("screen").innerHTML = calc.evaluate()
+      this.$screen.innerHTML = calc.evaluate();
     },
     clear: function clear() {
-      calc.clear();
-      document.getElementById("screen").innerHTML = '0';
+      calc.clear(); // document.getElementById("screen").innerHTML = '0' 
+
+      this.$screen.innerHTML = '0';
     },
     lastResult: function lastResult() {
-      document.getElementById('screen').innerHTML = calc.memory();
+      //  document.getElementById('screen').innerHTML = calc.memory()
+      this.$screen.innerHTML = calc.memory();
+    },
+    square: function square() {
+      console.log("squareroot"); // document.getElementById('screen').innerHTML = calc.squareRoot()
+
+      this.$screen.innerHTML = calc.square(this.result);
+    },
+    pi: function pi() {
+      this.$screen.innerHTML = calc.pi();
     }
   };
   app.init(); // calc.newInput(8)
@@ -347,7 +377,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34561" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43017" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

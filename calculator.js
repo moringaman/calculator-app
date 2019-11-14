@@ -35,12 +35,21 @@ export default class Calculator {
     }
   }
 
+  square(val) {
+    console.log('square it')
+    return Math.sqrt(parseInt(val))
+  }
+  
+  pi() {
+    return 3.14159
+  }
+
   evaluate() {
    let answer = this.validateResult(this.leftArray.join(''), this.operator, this.rightArray.join(''))
     return answer
   }
 
-  validateResult(left, operator, right ) {
+  validateResult(left, operator='', right='' ) {
     this.result = eval(left + " " + operator + " " + right)
     console.log(this.result)
     if (this.result > 999999999) return 'Err'
@@ -54,7 +63,6 @@ export default class Calculator {
       this.memoryPosition++
       return result
     }
-    // return result
   }
 
   clear() {

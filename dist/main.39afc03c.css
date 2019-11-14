@@ -51,8 +51,5 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
 }
-#calculator #main #operators #btn-equals {
-  grid-column: 1/-1;
-}
 
 /*# sourceMappingURL=/main.39afc03c.css.map */
