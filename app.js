@@ -12,6 +12,7 @@ let app = {
   this.result = '0'
   // document.getElementById('screen').innerHTML = '0'
   this.$screen.innerHTML = this.result 
+  this.$info.innerHTML = ''
    console.log(this.$screen)
   this.bindEvents()
   },
@@ -21,6 +22,7 @@ let app = {
     this.$calculator= $('#calculator')
     this.$main = this.$calculator.find('#main')
     this.$header = this.$calculator.find('#header')
+    this.$info = document.getElementById('info') 
     this.$screen = document.getElementById('screen') 
     this.$numbers = this.$main.find('#numbers')
     this.$operators = this.$main.find('#operators')
@@ -85,6 +87,7 @@ let app = {
     // Display the result on screen
     // document.getElementById("screen").innerHTML = this.result
     this.$screen.innerHTML = this.result
+    this.$info.innerHTML = calc.operator
     console.log('Result', this.result)
   },
 
@@ -98,6 +101,7 @@ let app = {
       calc.clear()
     // document.getElementById("screen").innerHTML = '0' 
     this.$screen.innerHTML = '0' 
+    this.$info.innerHTML = ''
   },
   
   lastResult: function() {

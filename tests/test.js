@@ -2,6 +2,7 @@ const assert = require('assert')
 import Calculator from '../calculator.js' 
 
 beforeEach(function () {
+  calc.previousResults = [34.2]
 })
 
   let calc = new Calculator
@@ -17,7 +18,7 @@ describe("inputs", function() {
     assert.equal(result, '+')
   })
 
-  it('will add aby number passed before an operator to the left if equation', function() {
+  it('will add aby number passed before an operator to the left of equation', function() {
     let result = calc.newInput('6')
     assert.equal(result, [6])
   })
@@ -33,7 +34,7 @@ describe("calculations", function() {
       let result = calc.validateResult(23.5, '+', 17.5)
       assert.equal(result, 41)
     })
-    it('Rounnd aswers with more that two decimal points', function() {
+    it('Round aswers with more that two decimal points', function() {
       let result = calc.validateResult(23.547, '+', 17.512)
       assert.equal(result, 41.06)
     })
@@ -62,5 +63,9 @@ describe('functions', function() {
   it('returns the square root of currently displayed number', function() {
     let result = calc.square(8)
     assert.equal(result, 2.82842712475)
+  })
+  it('returns the result of the last operation', function() {
+    let result = calc.memory()
+    assert.equal(result, 34.2)
   })
 })

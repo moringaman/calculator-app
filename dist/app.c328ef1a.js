@@ -153,10 +153,8 @@ function () {
       var operatorCheck = new RegExp('[^.0-9]'); // TODO: Fix
 
       var isOperator = operatorCheck.test(input);
-      console.log(isOperator);
 
       if (isOperator) {
-        console.log("Operator", this.operator);
         return this.operator = input;
       }
 
@@ -167,19 +165,16 @@ function () {
           }
 
           this.leftArray.push(input);
-          console.log(this.leftArray);
           return this.equation = this.leftArray.join('');
         }
       } else {
         this.rightArray.push(input);
-        console.log(this.rightArray);
         return this.equation = this.rightArray.join('');
       }
     }
   }, {
     key: "square",
     value: function square(val) {
-      console.log('square it');
       return Math.sqrt(parseInt(val)).toFixed(11);
     }
   }, {
@@ -199,9 +194,9 @@ function () {
       var operator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
       var right = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
       this.result = eval(left + " " + operator + " " + right);
-      console.log(this.result);
       if (this.result > 999999999) return 'Err';
       if (this.result % 1 != 0) return this.result.toFixed(2);
+      this.previousResults.push(this.result);
       return this.result;
     }
   }, {
@@ -218,7 +213,6 @@ function () {
     value: function clear() {
       this.leftArray = [];
       this.rightArray = [];
-      this.previousResults.push(this.result);
       this.result = 0;
       this.operator = '';
       return this.equation = "";
@@ -245,6 +239,7 @@ $(document).ready(function () {
       this.result = '0'; // document.getElementById('screen').innerHTML = '0'
 
       this.$screen.innerHTML = this.result;
+      this.$info.innerHTML = '';
       console.log(this.$screen);
       this.bindEvents();
     },
@@ -253,6 +248,7 @@ $(document).ready(function () {
       this.$calculator = $('#calculator');
       this.$main = this.$calculator.find('#main');
       this.$header = this.$calculator.find('#header');
+      this.$info = document.getElementById('info');
       this.$screen = document.getElementById('screen');
       this.$numbers = this.$main.find('#numbers');
       this.$operators = this.$main.find('#operators');
@@ -314,6 +310,7 @@ $(document).ready(function () {
       // document.getElementById("screen").innerHTML = this.result
 
       this.$screen.innerHTML = this.result;
+      this.$info.innerHTML = calc.operator;
       console.log('Result', this.result);
     },
     evaluate: function evaluate() {
@@ -325,6 +322,7 @@ $(document).ready(function () {
       calc.clear(); // document.getElementById("screen").innerHTML = '0' 
 
       this.$screen.innerHTML = '0';
+      this.$info.innerHTML = '';
     },
     lastResult: function lastResult() {
       //  document.getElementById('screen').innerHTML = calc.memory()

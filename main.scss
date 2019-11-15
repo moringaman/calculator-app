@@ -32,6 +32,14 @@
       grid-row: 1 / 1;
       grid-column: 1 / 8;
     }
+     #info {
+       position: absolute;
+       right: 50px;
+       font-size: 2rem;
+       color: greenyellow;
+       max-height: 30px;
+       transform: translateY(-20px);
+     }
   }
 
 

@@ -14,9 +14,7 @@ export default class Calculator {
   newInput(input) {
     let operatorCheck= new RegExp('[^.0-9]')  // TODO: Fix
     let isOperator = operatorCheck.test(input)
-    console.log(isOperator)
     if (isOperator) {
-      console.log("Operator", this.operator)
       return this.operator = input
     }
     if (this.operator === '') {
@@ -25,18 +23,15 @@ export default class Calculator {
             return this.leftArray.join('')
           }
       this.leftArray.push(input)
-      console.log(this.leftArray)
       return this.equation = this.leftArray.join('')
       }
     } else {
       this.rightArray.push(input)
-      console.log(this.rightArray)
       return this.equation = this.rightArray.join('')
     }
   }
 
   square(val) {
-    console.log('square it')
     return Math.sqrt(parseInt(val)).toFixed(11)
   }
   
@@ -51,9 +46,9 @@ export default class Calculator {
 
   validateResult(left, operator='', right='' ) {
     this.result = eval(left + " " + operator + " " + right)
-    console.log(this.result)
     if (this.result > 999999999) return 'Err'
     if (this.result % 1 != 0) return this.result.toFixed(2)
+    this.previousResults.push(this.result)
     return this.result
   }
 
@@ -68,7 +63,6 @@ export default class Calculator {
   clear() {
     this.leftArray = []
     this.rightArray = []
-    this.previousResults.push(this.result)
     this.result = 0
     this.operator = ''
     return this.equation = ""
