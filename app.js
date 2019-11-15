@@ -8,15 +8,16 @@ const calc = new Calculator
 // initialize application modules
 let app = {
   init: function() {
+  //  call cache dome element function
   this.cacheDom()
+  // call bind events to dom element function
+  this.bindEvents()
+  // set initial display values
   this.result = '0'
-  // document.getElementById('screen').innerHTML = '0'
   this.$screen.innerHTML = this.result 
   this.$info.innerHTML = ''
-   console.log(this.$screen)
-  this.bindEvents()
   },
-
+  // cache dom elements
   cacheDom: function() {
     this.$window = $(window)
     this.$calculator= $('#calculator')
@@ -36,11 +37,6 @@ let app = {
     this.$btnPi= this.$operators.find('#btn-pi')
     this.$btnPoint= this.$numbers.find('#btn-point')
     this.$btnRoot = this.$numbers.find('#btn-root')
-    // this.$btnroot = document.getElementById('btn-root')
-    // for (let i = 0; i< 10; i++) {
-    //   let str = "this.$btn" + i + "= this.$numbers.find('#btn'" + i + ")"
-    //   eval(str)
-    // }
     this.$btn0 = this.$numbers.find('#btn0')
     this.$btn1 = this.$numbers.find('#btn1')
     this.$btn2 = this.$numbers.find('#btn2')
@@ -80,62 +76,42 @@ let app = {
 
   pressKey: function(x){
     let data = x.target.value
-    console.log('input', data)
     // Call newInput method of calculator class instance
     calc.newInput(data)
     this.result = calc.equation
     // Display the result on screen
-    // document.getElementById("screen").innerHTML = this.result
-    this.$screen.innerHTML = this.result
+    this.display(calc.equation)
     this.$info.innerHTML = calc.operator
-    console.log('Result', this.result)
   },
 
    evaluate: function() {
-    // let data = x.target.value
-    // document.getElementById("screen").innerHTML = calc.evaluate()
-    this.$screen.innerHTML = calc.evaluate()
+    this.display(calc.evaluate())
    },
   
   clear: function() {
-      calc.clear()
-    // document.getElementById("screen").innerHTML = '0' 
-    this.$screen.innerHTML = '0' 
+    calc.clear()
+    this.display('0') 
     this.$info.innerHTML = ''
   },
   
   lastResult: function() {
-  //  document.getElementById('screen').innerHTML = calc.memory()
-  this.$screen.innerHTML = calc.memory()
+    this.display(calc.memory())
   },
 
   square: function() {
-    console.log("squareroot")
-    // document.getElementById('screen').innerHTML = calc.squareRoot()
-    this.$screen.innerHTML = calc.square(this.result)
+     this.display(calc.square(this.result))
   },
 
   pi: function() {
-    this.$screen.innerHTML = calc.pi()
+    this.display(calc.pi())
+  },
+
+  display: function(result) {
+    this.$screen.innerHTML = result
   }
 
 }
 
 app.init()
 
-// calc.newInput(8)
-// calc.newInput("*")
-// calc.newInput(3)
-// console.log(calc.evaluate())
-
 }))
-
-
-
-// calc.newInput(2) //?
-// calc.newInput(5)//?
-// calc.newInput('*')//?
-// calc.newInput(25)
-// // eval(calc.newInput(30))//?
-
-// calc.evaluate()//?

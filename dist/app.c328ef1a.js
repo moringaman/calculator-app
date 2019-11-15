@@ -137,12 +137,15 @@ function () {
   function Calculator(input) {
     _classCallCheck(this, Calculator);
 
-    this.rightArray = [];
-    this.leftArray = [];
+    // initialize default variable values
+    this.rightArray = []; // right side of equation
+
+    this.leftArray = []; // lift side of equation
+
     this.operator = '';
     this.input = input;
     this.equation = '';
-    this.previousResults = [];
+    this.previousResult = 0;
     this.memoryPosition = 0;
     this.result = 0;
   }
@@ -150,13 +153,15 @@ function () {
   _createClass(Calculator, [{
     key: "newInput",
     value: function newInput(input) {
+      // Check for an operator
       var operatorCheck = new RegExp('[^.0-9]'); // TODO: Fix
 
       var isOperator = operatorCheck.test(input);
 
       if (isOperator) {
         return this.operator = input;
-      }
+      } // If no operator set add value passed by btn to leftArray
+
 
       if (this.operator === '') {
         if (this.leftArray.length < 12) {
@@ -168,6 +173,7 @@ function () {
           return this.equation = this.leftArray.join('');
         }
       } else {
+        // If an operator has already been passed pupulate rightArray
         this.rightArray.push(input);
         return this.equation = this.rightArray.join('');
       }
@@ -185,9 +191,11 @@ function () {
   }, {
     key: "evaluate",
     value: function evaluate() {
+      // send all parts of equation for validation and formatting
       var answer = this.validateResult(this.leftArray.join(''), this.operator, this.rightArray.join(''));
       return answer;
-    }
+    } // function to format results - can be called from anywhere for testing
+
   }, {
     key: "validateResult",
     value: function validateResult(left) {
@@ -196,21 +204,18 @@ function () {
       this.result = eval(left + " " + operator + " " + right);
       if (this.result > 999999999) return 'Err';
       if (this.result % 1 != 0) return this.result.toFixed(2);
-      this.previousResults.push(this.result);
+      this.previousResult = this.result;
       return this.result;
     }
   }, {
     key: "memory",
     value: function memory() {
-      if (this.memoryPosition <= this.previousResults.length) {
-        var result = this.previousResults[this.memoryPosition];
-        this.memoryPosition++;
-        return result;
-      }
+      return this.previousResult;
     }
   }, {
     key: "clear",
     value: function clear() {
+      // reset all calulator variables back to the default
       this.leftArray = [];
       this.rightArray = [];
       this.result = 0;
@@ -235,14 +240,16 @@ $(document).ready(function () {
 
   var app = {
     init: function init() {
-      this.cacheDom();
-      this.result = '0'; // document.getElementById('screen').innerHTML = '0'
+      //  call cache dome element function
+      this.cacheDom(); // call bind events to dom element function
 
+      this.bindEvents(); // set initial display values
+
+      this.result = '0';
       this.$screen.innerHTML = this.result;
       this.$info.innerHTML = '';
-      console.log(this.$screen);
-      this.bindEvents();
     },
+    // cache dom elements
     cacheDom: function cacheDom() {
       this.$window = $(window);
       this.$calculator = $('#calculator');
@@ -261,12 +268,7 @@ $(document).ready(function () {
       this.$btnMem = this.$operators.find('#btn-mem');
       this.$btnPi = this.$operators.find('#btn-pi');
       this.$btnPoint = this.$numbers.find('#btn-point');
-      this.$btnRoot = this.$numbers.find('#btn-root'); // this.$btnroot = document.getElementById('btn-root')
-      // for (let i = 0; i< 10; i++) {
-      //   let str = "this.$btn" + i + "= this.$numbers.find('#btn'" + i + ")"
-      //   eval(str)
-      // }
-
+      this.$btnRoot = this.$numbers.find('#btn-root');
       this.$btn0 = this.$numbers.find('#btn0');
       this.$btn1 = this.$numbers.find('#btn1');
       this.$btn2 = this.$numbers.find('#btn2');
@@ -302,51 +304,37 @@ $(document).ready(function () {
       this.$btnPi.on('click', this.pi.bind(this));
     },
     pressKey: function pressKey(x) {
-      var data = x.target.value;
-      console.log('input', data); // Call newInput method of calculator class instance
+      var data = x.target.value; // Call newInput method of calculator class instance
 
       calc.newInput(data);
       this.result = calc.equation; // Display the result on screen
-      // document.getElementById("screen").innerHTML = this.result
 
-      this.$screen.innerHTML = this.result;
+      this.display(calc.equation);
       this.$info.innerHTML = calc.operator;
-      console.log('Result', this.result);
     },
     evaluate: function evaluate() {
-      // let data = x.target.value
-      // document.getElementById("screen").innerHTML = calc.evaluate()
-      this.$screen.innerHTML = calc.evaluate();
+      this.display(calc.evaluate());
     },
     clear: function clear() {
-      calc.clear(); // document.getElementById("screen").innerHTML = '0' 
-
-      this.$screen.innerHTML = '0';
+      calc.clear();
+      this.display('0');
       this.$info.innerHTML = '';
     },
     lastResult: function lastResult() {
-      //  document.getElementById('screen').innerHTML = calc.memory()
-      this.$screen.innerHTML = calc.memory();
+      this.display(calc.memory());
     },
     square: function square() {
-      console.log("squareroot"); // document.getElementById('screen').innerHTML = calc.squareRoot()
-
-      this.$screen.innerHTML = calc.square(this.result);
+      this.display(calc.square(this.result));
     },
     pi: function pi() {
-      this.$screen.innerHTML = calc.pi();
+      this.display(calc.pi());
+    },
+    display: function display(result) {
+      this.$screen.innerHTML = result;
     }
   };
-  app.init(); // calc.newInput(8)
-  // calc.newInput("*")
-  // calc.newInput(3)
-  // console.log(calc.evaluate())
-}); // calc.newInput(2) //?
-// calc.newInput(5)//?
-// calc.newInput('*')//?
-// calc.newInput(25)
-// // eval(calc.newInput(30))//?
-// calc.evaluate()//?
+  app.init();
+});
 },{"./calculator.js":"calculator.js"}],"../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

@@ -2,11 +2,10 @@ const assert = require('assert')
 import Calculator from '../calculator.js' 
 
 beforeEach(function () {
-  calc.previousResults = [34.2]
+  calc.previousResult = 34.2
 })
 
   let calc = new Calculator
-  // return calc
 describe("inputs", function() {
   it('will return correct initial result of 0', function () {
     let result = calc.result
